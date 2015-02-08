@@ -11,8 +11,8 @@
   `(go
      (try
        ~@body
-       (catch Exception e
-         (timbre/error e)))))
+       (catch Exception e#
+         (timbre/error e#)))))
 
 (def ^:dynamic *working-buffer-size*
   "Initial size of the destination buffer for reads. Will be reallocated with a larger size as-needed."
@@ -67,25 +67,25 @@
                                 (timbre/error "timeout occurred in callback writing to" dest-name "-- shutting down")
                                 (let [^NuProcess p @process-atom] (.destroy p)))))))]
     (let [^NuProcessHandler handler
-          (proxy [NuProcessHandler] []
-            (onStart [process]
+          (reify NuProcessHandler
+            (^void onStart [this ^NuProcess process]
               (timbre/trace "onStart called for" process)
               (reset! process-atom process))
-            (onExit [statusCode]
+            (^void onExit [this ^int statusCode]
               (timbre/trace "onExit called with" statusCode)
               (>!! exit-status-chan statusCode)
               (close! out-chan)
               (close! err-chan)
               (close! exit-status-chan))
-            (onStdout [^ByteBuffer buffer]
+            (^void onStdout [this ^ByteBuffer buffer]
               (timbre/trace "onStdout called with" buffer)
               (write-callback buffer out-chan :out)
               (timbre/trace "onStdout finished; buffer no longer safe"))
-            (onStderr [^ByteBuffer buffer]
+            (^void onStderr [this ^ByteBuffer buffer]
               (timbre/trace "onStderr called with" buffer)
               (write-callback buffer err-chan :err)
               (timbre/trace "onStderr finished; buffer no longer safe"))
-            (onStdinReady [^ByteBuffer buffer]
+            (^boolean onStdinReady [this ^ByteBuffer buffer]
               (timbre/trace "Performing deferred close")
               (let [^NuProcess process @process-atom]
                 (.closeStdin process))
