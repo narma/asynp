@@ -11,8 +11,8 @@
   `(go
      (try
        ~@body
-       (catch Exception e
-         (timbre/error e)))))
+       (catch Exception e#
+         (timbre/error e#)))))
 
 (def ^:dynamic *working-buffer-size*
   "Initial size of the destination buffer for reads. Will be reallocated with a larger size as-needed."
@@ -67,7 +67,7 @@
                                 (timbre/error "timeout occurred in callback writing to" dest-name "-- shutting down")
                                 (let [^NuProcess p @process-atom] (.destroy p)))))))]
     (let [^NuProcessHandler handler
-          (proxy [NuProcessHandler] []
+          (reify NuProcessHandler
             (onStart [process]
               (timbre/trace "onStart called for" process)
               (reset! process-atom process))
