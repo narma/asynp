@@ -6,7 +6,7 @@ A Clojure core.async wrapper around the excellent [NuProcess library by Brett Wo
 
 Add the following dependency to your `project.clj` file:
 
-[![Current Version](https://clojars.org/asynp/latest-version.svg)](https://clojars.org/asynp)
+`[org.clojars.narma/asynp "0.0.5"]`
 
 ## Usage
 
