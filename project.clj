@@ -4,7 +4,11 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :scm {:name "git" :url "https://github.com/narma/asynp"}
-  :plugins [[codox "0.6.7"]]
+  :profiles {
+    :dev {
+      :plugins [[codox "0.6.7"]]
+    }
+  }
   :dependencies [[org.clojure/clojure "1.6.0" :scope "provided"]
                  [org.clojure/core.async "0.1.346.0-17112a-alpha" :scope "provided"]
                  [com.taoensso/timbre "3.3.1"]

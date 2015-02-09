@@ -1,4 +1,4 @@
-# asynp [![Build Status](https://travis-ci.org/narma/asynp.svg)](https://travis-ci.org/narma/asynp)
+# asynp [![Build Status](https://travis-ci.org/narma/asynp.svg?branch=master)](https://travis-ci.org/narma/asynp)
 
 A Clojure core.async wrapper around the excellent [NuProcess library by Brett Wooldridge](https://github.com/brettwooldridge/NuProcess/) for efficiently interacting with a potentially large number of subprocesses concurrently.
 
